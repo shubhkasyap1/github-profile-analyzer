@@ -65,13 +65,16 @@ updated_at = CURRENT_TIMESTAMP;
   return result;
 };
 
+// ===================== Get All Profiles =====================
+
 const getAllProfiles = async (page = 1, limit = 10, search = "") => {
+  page = Number(page) || 1;
+  limit = Number(limit) || 10;
+
   const offset = (page - 1) * limit;
+  const keyword = `%${search}%`;
 
-  const searchQuery = `%${search}%`;
-
-  const [rows] = await pool.execute(
-    `
+  const sql = `
     SELECT
       id,
       username,
@@ -87,39 +90,50 @@ const getAllProfiles = async (page = 1, limit = 10, search = "") => {
     WHERE username LIKE ?
        OR name LIKE ?
     ORDER BY updated_at DESC
-    LIMIT ?
-    OFFSET ?
-    `,
-    [searchQuery, searchQuery, Number(limit), Number(offset)]
-  );
+    LIMIT ${limit} OFFSET ${offset}
+  `;
 
-  const [countResult] = await pool.execute(
+  const [rows] = await pool.execute(sql, [
+    keyword,
+    keyword,
+  ]);
+
+  const [count] = await pool.execute(
     `
-    SELECT COUNT(*) AS total
-    FROM profiles
-    WHERE username LIKE ?
-       OR name LIKE ?
+      SELECT COUNT(*) AS total
+      FROM profiles
+      WHERE username LIKE ?
+         OR name LIKE ?
     `,
-    [searchQuery, searchQuery]
+    [
+      keyword,
+      keyword,
+    ]
   );
 
   return {
     profiles: rows,
-    total: countResult[0].total,
+    total: count[0].total,
   };
 };
 
-const getProfileByUsername = async (username) => {
-    const [rows] = await pool.execute(
-        `SELECT * FROM profiles WHERE username = ?`,
-        [username]
-    );
+// ===================== Get Profile By Username =====================
 
-    return rows[0];
+const getProfileByUsername = async (username) => {
+  const [rows] = await pool.execute(
+    `
+    SELECT *
+    FROM profiles
+    WHERE username = ?
+    `,
+    [username]
+  );
+
+  return rows[0];
 };
 
 module.exports = {
-    insertProfile,
-    getAllProfiles,
-    getProfileByUsername,
+  insertProfile,
+  getAllProfiles,
+  getProfileByUsername,
 };
