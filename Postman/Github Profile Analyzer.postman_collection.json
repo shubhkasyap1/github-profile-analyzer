@@ -10,7 +10,20 @@
       "name": "Get Single Profile",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/profile/shubhkasyap1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "profile",
+            "shubhkasyap1"
+          ]
+        }
       },
       "response": []
     },
@@ -40,7 +53,20 @@
       "name": "Get All Profile",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "https://github-profile-analyzer-yh0q.onrender.com/api/profiles",
+          "protocol": "https",
+          "host": [
+            "github-profile-analyzer-yh0q",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "profiles"
+          ]
+        }
       },
       "response": []
     },
@@ -48,7 +74,30 @@
       "name": "GetProfileByFilter",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "https://github-profile-analyzer-yh0q.onrender.com/api/profiles?page=1&limit=10",
+          "protocol": "https",
+          "host": [
+            "github-profile-analyzer-yh0q",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "profiles"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
       },
       "response": []
     }
