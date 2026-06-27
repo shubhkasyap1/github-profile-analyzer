@@ -65,24 +65,48 @@ updated_at = CURRENT_TIMESTAMP;
   return result;
 };
 
-const getAllProfiles = async () => {
-    const [rows] = await pool.execute(`
-        SELECT
-            id,
-            username,
-            name,
-            followers,
-            following,
-            public_repos,
-            total_stars,
-            total_forks,
-            account_age_years,
-            updated_at
-        FROM profiles
-        ORDER BY updated_at DESC
-    `);
+const getAllProfiles = async (page = 1, limit = 10, search = "") => {
+  const offset = (page - 1) * limit;
 
-    return rows;
+  const searchQuery = `%${search}%`;
+
+  const [rows] = await pool.execute(
+    `
+    SELECT
+      id,
+      username,
+      name,
+      followers,
+      following,
+      public_repos,
+      total_stars,
+      total_forks,
+      account_age_years,
+      updated_at
+    FROM profiles
+    WHERE username LIKE ?
+       OR name LIKE ?
+    ORDER BY updated_at DESC
+    LIMIT ?
+    OFFSET ?
+    `,
+    [searchQuery, searchQuery, Number(limit), Number(offset)]
+  );
+
+  const [countResult] = await pool.execute(
+    `
+    SELECT COUNT(*) AS total
+    FROM profiles
+    WHERE username LIKE ?
+       OR name LIKE ?
+    `,
+    [searchQuery, searchQuery]
+  );
+
+  return {
+    profiles: rows,
+    total: countResult[0].total,
+  };
 };
 
 const getProfileByUsername = async (username) => {

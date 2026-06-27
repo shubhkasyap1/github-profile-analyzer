@@ -79,12 +79,19 @@ const analyzeProfile = asyncHandler(async (req, res) => {
 // ================= Get All Profiles =================
 
 const getProfiles = asyncHandler(async (req, res) => {
-  const profiles = await getAllProfiles();
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const search = req.query.search || "";
+
+  const result = await getAllProfiles(page, limit, search);
 
   res.status(200).json({
     success: true,
-    count: profiles.length,
-    data: profiles,
+    currentPage: page,
+    totalPages: Math.ceil(result.total / limit),
+    totalProfiles: result.total,
+    count: result.profiles.length,
+    data: result.profiles,
   });
 });
 
