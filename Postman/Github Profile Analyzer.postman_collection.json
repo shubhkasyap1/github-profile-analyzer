@@ -1,0 +1,56 @@
+{
+  "info": {
+    "_postman_id": "75efc518-f0dc-492a-85cd-fca990595ea0",
+    "name": "Github Profile Analyzer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46401715"
+  },
+  "item": [
+    {
+      "name": "Get Single Profile",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Analyze Github Profile",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://github-profile-analyzer-yh0q.onrender.com/api/profile/shubhkasyap1",
+          "protocol": "https",
+          "host": [
+            "github-profile-analyzer-yh0q",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "profile",
+            "shubhkasyap1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Profile",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GetProfileByFilter",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
